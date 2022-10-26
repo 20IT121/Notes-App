@@ -1,5 +1,5 @@
 const fs = require('fs');
-
+const chalk = require('chalk')
 
 const getNotes = ()=>{
 
@@ -20,7 +20,7 @@ const addNotes = (title , body)=>{
 
     console.log(notes);
     if(duplicateNotes.length === 0){ 
-        console.log("New Note Added");   
+        console.log(chalk.green.inverse("New Note Added"));   
         notes.push({
             title : title,
             body : body
@@ -28,7 +28,7 @@ const addNotes = (title , body)=>{
         
         saveNotes(notes)
     }else{
-        console.log("This title has been taken!");
+        console.log(chalk.red.inverse("This title has been taken!"));
     }
     
 }
@@ -50,7 +50,26 @@ const loadNotes = ()=>{
     }
 }
 
+const removeNote = (title)=>{
+    const notes = loadNotes();
+    
+// If that note of given title exist in notes then it will not be stored in tempNotes so our work of removing the note of given title is done , if that note doesn't exist then we'll display the msg
+
+    let tempNotes = notes.filter((note)=>{  // notes to keep
+        return note.title != title
+    });
+
+    if(tempNotes.length === notes.length)
+        console.log(chalk.bgRed("Note doesn't Exist"));
+    else{
+        console.log(chalk.bgGreen("Note Removed"));
+        saveNotes(tempNotes);
+    }
+    
+}
+
 module.exports = {
     getNotes,
-    addNotes
+    addNotes,
+    removeNote
 }

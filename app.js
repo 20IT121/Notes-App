@@ -1,7 +1,7 @@
 const yargs = require('yargs');
 // We are using yargs to parse the command line arguments ,
 
-const {addNotes , getNotes } = require('./notes');
+const {addNotes , getNotes , removeNote } = require('./notes');
 const log  = console.log;
 
 // We can customize the version acc to our needs
@@ -33,8 +33,15 @@ yargs.command({
 yargs.command({
     command : 'remove',
     describe : 'Here we will remove some notes',
-    handler : ()=>{
-        log(`Removing the notes!!!`);
+    builder : {
+        title : {
+            describe : "Title to remove",
+            required : true , 
+            type : 'string'
+        }
+    },
+    handler : (argv)=>{
+        removeNote(argv.title);
     }
 });
 yargs.command({
