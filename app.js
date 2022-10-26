@@ -1,6 +1,7 @@
 const yargs = require('yargs');
 // We are using yargs to parse the command line arguments ,
 
+const {addNotes , getNotes } = require('./notes');
 const log  = console.log;
 
 // We can customize the version acc to our needs
@@ -25,7 +26,7 @@ yargs.command({
         }
     },
     handler : (argv)=>{
-        log(`Title entered: ` ,argv.title  , "\nBody of note :" , argv.body);
+       addNotes(argv.title , argv.body); 
     }
 });
 // creating remove command
