@@ -1,7 +1,9 @@
 const yargs = require('yargs');
 // We are using yargs to parse the command line arguments ,
 
-const {addNotes , getNotes , removeNote } = require('./notes');
+const chalk = require('chalk')
+
+const {addNotes , getNote , removeNote, listNotes } = require('./notes');
 const log  = console.log;
 
 // We can customize the version acc to our needs
@@ -25,7 +27,7 @@ yargs.command({
             type : 'string'
         }
     },
-    handler : (argv)=>{
+    handler (argv) {
        addNotes(argv.title , argv.body); 
     }
 });
@@ -40,22 +42,29 @@ yargs.command({
             type : 'string'
         }
     },
-    handler : (argv)=>{
+    handler(argv) {
         removeNote(argv.title);
     }
 });
 yargs.command({
     command : 'list',
     describe : 'Here we will display some notes',
-    handler : ()=>{
-        log(`Listing the notes!!!`);
+    handler () {
+        listNotes();
     }
 });
 yargs.command({
     command : 'read',
     describe : 'Here we will read some notes',
-    handler : ()=>{
-        log(`Reading the notes!!!`);
+    builder : {
+        title : {
+            type : 'string',
+            demandOption : true ,
+            describe : "Read a Note!"
+        }
+    },
+    handler(argv) {
+        getNote(argv.title);
     }
 });
 
